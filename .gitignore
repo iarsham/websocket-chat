@@ -19,3 +19,24 @@
 
 # Go workspace file
 go.work
+.idea/
+
+# React
+front/.DS_STORE
+front/node_modules
+front/scripts/flow/*/.flowconfig
+front/.flowconfig
+*~
+*.pyc
+front/.grunt
+front/_SpecRunner.html
+front/__benchmarks__
+front/build/
+front/remote-repo/
+front/coverage/
+front/.module-cache
+front/fixtures/dom/public/react-dom.js
+front/fixtures/dom/public/react.js
+front/test/the-files-to-test.generated.js
+front/*.log*
+front/chrome-user-data
