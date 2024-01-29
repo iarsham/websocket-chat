@@ -20,6 +20,9 @@
 # Go workspace file
 go.work
 .idea/
+.env
+server/.air.toml
+server/tmp
 
 # React
 front/.DS_STORE
