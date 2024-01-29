@@ -1,0 +1,41 @@
+version: '3.9'
+
+x-base:
+  &base
+  env_file:
+    - ./.env
+  networks:
+    - websocket-server
+  restart: always
+
+
+services:
+  postgres:
+    <<: *base
+    container_name: postgres
+    image: postgres:16
+    expose:
+      - ${PG_PORT}
+    volumes:
+      - db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${PG_DB}
+      - POSTGRES_USER=${PG_USER}
+      - POSTGRES_PASSWORD=${PG_PASS}
+
+  app:
+    <<: *base
+    build:
+      context: server/.
+      dockerfile: Dockerfile
+    container_name: websocket-server
+    ports:
+      - "80:${PORT}"
+    depends_on:
+      - postgres
+
+networks:
+  websocket-server:
+
+volumes:
+  db:
