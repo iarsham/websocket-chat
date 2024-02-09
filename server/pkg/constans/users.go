@@ -6,4 +6,5 @@ const (
 	UserExists    string = "User already exists"
 	UserNotExists string = "User not found"
 	AuthRequired  string = "authenticate required"
+	UserID        string = "user_id"
 )

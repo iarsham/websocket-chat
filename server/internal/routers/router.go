@@ -17,6 +17,7 @@ func SetupRoutes(db *sql.DB, rds *redis.Client, log *zap.Logger) http.Handler {
 	r.Use(m.Recovery)
 	r.Use(m.LogMiddleware)
 	api := r.PathPrefix("/api").Subrouter()
-	usersGroup(api, db, log, store)
+	authGroup(api, db, log, store)
+	usersGroup(api, db, log, store, m)
 	return m.CorsMiddleware().Handler(r)
 }

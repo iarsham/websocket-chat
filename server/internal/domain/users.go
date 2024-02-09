@@ -9,8 +9,8 @@ import (
 
 type UserRepository interface {
 	CreateUser(req *entites.UserRequest) (*models.Users, error)
-	GetUserByID(id int64) (*models.Users, error)
+	GetUserByID(id string) (*models.Users, error)
 	GetUserByUsername(userName string) (*models.Users, error)
-	DeleteUser(userName string) error
+	DeleteUser(userID string) error
 	Authenticate(w http.ResponseWriter, r *http.Request, userID uuid.UUID, auth bool) error
 }

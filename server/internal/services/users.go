@@ -28,7 +28,7 @@ func NewUserService(db *sql.DB, log *zap.Logger, store *sessions.CookieStore) do
 	}
 }
 
-func (u *UserService) GetUserByID(id int64) (*models.Users, error) {
+func (u *UserService) GetUserByID(id string) (*models.Users, error) {
 	query := "SELECT * FROM users WHERE id=$1;"
 	row := u.db.QueryRow(query, id)
 	return u.collectRow(row)
@@ -53,9 +53,24 @@ func (u *UserService) CreateUser(req *entites.UserRequest) (*models.Users, error
 	return u.collectRow(row)
 }
 
-func (u *UserService) DeleteUser(userName string) error {
-	query := "DELETE FROM users where username=$1;"
-	if _, err := u.db.Exec(query, userName); err != nil {
+func (u *UserService) DeleteUser(userID string) error {
+	query := "DELETE FROM users where id=$1;"
+	if _, err := u.db.Exec(query, userID); err != nil {
+		u.log.Warn(err.Error())
+		return err
+	}
+	return nil
+}
+
+func (u *UserService) Authenticate(w http.ResponseWriter, r *http.Request, userID uuid.UUID, auth bool) error {
+	session, err := u.store.Get(r, constans.Session)
+	if err != nil {
+		u.log.Warn(err.Error())
+		return err
+	}
+	session.Values["authenticated"] = auth
+	session.Values["user_id"] = userID.String()
+	if err := session.Save(r, w); err != nil {
 		u.log.Warn(err.Error())
 		return err
 	}
@@ -72,19 +87,4 @@ func (u *UserService) collectRow(row *sql.Row) (*models.Users, error) {
 		return nil, err
 	}
 	return &user, nil
-}
-
-func (u *UserService) Authenticate(w http.ResponseWriter, r *http.Request, userID uuid.UUID, auth bool) error {
-	session, err := u.store.Get(r, constans.Session)
-	if err != nil {
-		u.log.Warn(err.Error())
-		return err
-	}
-	session.Values["authenticated"] = auth
-	session.Values["user_id"] = userID
-	if err := session.Save(r, w); err != nil {
-		u.log.Warn(err.Error())
-		return err
-	}
-	return nil
 }

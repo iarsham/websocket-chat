@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"database/sql"
+	"errors"
 	"github.com/iarsham/websocket-chat/internal/common"
 	"github.com/iarsham/websocket-chat/internal/entites"
 	"github.com/iarsham/websocket-chat/pkg/constans"
@@ -8,20 +10,24 @@ import (
 	"net/http"
 )
 
-func (u *UsersController) UserRegisterHandler(w http.ResponseWriter, r *http.Request) {
+func (u *UsersController) UserLoginHandler(w http.ResponseWriter, r *http.Request) {
 	data := new(entites.UserRequest)
 	if err := common.BindJson(r, data); err != nil {
 		responses.Json(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	if _, err := u.Service.GetUserByUsername(data.Username); err != nil {
-		user, err := u.Service.CreateUser(data)
-		if err != nil {
-			responses.Json(w, constans.InternalError, http.StatusInternalServerError)
-			return
-		}
-		responses.Json(w, user, http.StatusCreated)
+	user, err := u.Service.GetUserByUsername(data.Username)
+	if errors.Is(err, sql.ErrNoRows) {
+		responses.Json(w, constans.UserNotExists, http.StatusNotFound)
 		return
 	}
-	responses.Json(w, constans.UserExists, http.StatusConflict)
+	if ok := user.ValidatePassword(data.Password); !ok {
+		responses.Json(w, constans.PassNotEqual, http.StatusUnauthorized)
+		return
+	}
+	if err := u.Service.Authenticate(w, r, user.ID, true); err != nil {
+		responses.Json(w, constans.InternalError, http.StatusInternalServerError)
+		return
+	}
+	responses.Json(w, user, http.StatusOK)
 }
