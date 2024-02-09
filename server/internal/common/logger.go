@@ -1,14 +1,12 @@
 package common
 
 import (
+	"github.com/iarsham/websocket-chat/pkg/constans"
 	"go.uber.org/zap"
-	"os"
-	"strconv"
 )
 
 func ZapLogger() *zap.Logger {
-	Mode, _ := strconv.ParseBool(os.Getenv("DEBUG"))
-	if Mode {
+	if constans.Mode {
 		return zap.Must(zap.NewDevelopment())
 	}
 	return zap.Must(zap.NewProduction())

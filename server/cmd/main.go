@@ -8,7 +8,9 @@ import (
 func main() {
 	logger := common.ZapLogger()
 	defer logger.Sync()
-
-	_ = db.InitDB(logger)
+	dbInstance := db.InitDB(logger)
 	defer db.CloseDB(logger)
+	rdsInstance := db.ConnRedis(logger)
+	defer db.DisConnRedis(logger)
+	RunServer(dbInstance, rdsInstance, logger)
 }
