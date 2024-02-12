@@ -1,4 +1,4 @@
-package entites
+package entities
 
 type UserRequest struct {
 	Username string `json:"username" validate:"required" example:"ana"`

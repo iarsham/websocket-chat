@@ -2,13 +2,13 @@ package domain
 
 import (
 	"github.com/google/uuid"
-	"github.com/iarsham/websocket-chat/internal/entites"
+	"github.com/iarsham/websocket-chat/internal/entities"
 	"github.com/iarsham/websocket-chat/internal/models"
 	"net/http"
 )
 
 type UserRepository interface {
-	CreateUser(req *entites.UserRequest) (*models.Users, error)
+	CreateUser(req *entities.UserRequest) (*models.Users, error)
 	GetUserByID(id string) (*models.Users, error)
 	GetUserByUsername(userName string) (*models.Users, error)
 	DeleteUser(userID string) error

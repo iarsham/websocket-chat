@@ -1,0 +1,300 @@
+{
+    "schemes": [
+        "http",
+        "https"
+    ],
+    "swagger": "2.0",
+    "info": {
+        "description": "This is chat API server.",
+        "title": "Websocket-Chat-API",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "Arsham Roshannejad",
+            "url": "https://www.linkedin.com/in/arsham-roshannejad",
+            "email": "arshamdev2001@gmail.com"
+        },
+        "license": {
+            "name": "MIT",
+            "url": "https://www.mit.edu/~amini/LICENSE.md"
+        },
+        "version": "0.1.0"
+    },
+    "host": "localhost:8000",
+    "basePath": "/api",
+    "paths": {
+        "/auth/login": {
+            "post": {
+                "description": "login with username and password",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Login endpoint",
+                "parameters": [
+                    {
+                        "description": "login body",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_iarsham_websocket-chat_internal_entities.UserRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_iarsham_websocket-chat_pkg_responses.LoginOKResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_iarsham_websocket-chat_pkg_responses.PassNotEqualResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_iarsham_websocket-chat_pkg_responses.UserNotExistsResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_iarsham_websocket-chat_pkg_responses.InterServerErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/register": {
+            "post": {
+                "description": "Register with username and password",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Register endpoint",
+                "parameters": [
+                    {
+                        "description": "register body",
+                        "name": "Request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/github_com_iarsham_websocket-chat_internal_entities.UserRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_iarsham_websocket-chat_pkg_responses.RegisterOKResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_iarsham_websocket-chat_pkg_responses.UserAlreadyExistsResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_iarsham_websocket-chat_pkg_responses.InterServerErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/delete-account": {
+            "delete": {
+                "description": "If there is a user session, the user can be deleted",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Delete account endpoint",
+                "responses": {
+                    "204": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_iarsham_websocket-chat_pkg_responses.RecordDeletedResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_iarsham_websocket-chat_pkg_responses.InterServerErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/logout": {
+            "post": {
+                "description": "If there is a user session, the user can be logout",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Logout account endpoint",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_iarsham_websocket-chat_pkg_responses.UserLogOutResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Error",
+                        "schema": {
+                            "$ref": "#/definitions/github_com_iarsham_websocket-chat_pkg_responses.InterServerErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "github_com_iarsham_websocket-chat_internal_entities.UserRequest": {
+            "type": "object",
+            "required": [
+                "password",
+                "username"
+            ],
+            "properties": {
+                "password": {
+                    "type": "string",
+                    "minLength": 8,
+                    "example": "geckodriver123"
+                },
+                "username": {
+                    "type": "string",
+                    "example": "ana"
+                }
+            }
+        },
+        "github_com_iarsham_websocket-chat_pkg_responses.InterServerErrorResponse": {
+            "type": "object",
+            "properties": {
+                "response": {
+                    "type": "string",
+                    "example": "Internal Server Error"
+                }
+            }
+        },
+        "github_com_iarsham_websocket-chat_pkg_responses.LoginOKResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "example": "b710c584-2400-3fa2-9ebb-07eb3ed96c7d"
+                },
+                "joined_at": {
+                    "type": "string",
+                    "example": "2024-01-29T03:09:00+03:30"
+                },
+                "last_seen": {
+                    "type": "string",
+                    "example": "2024-01-29T04:14:08+03:30"
+                },
+                "username": {
+                    "type": "string",
+                    "example": "neymar"
+                },
+                "verified": {
+                    "type": "boolean",
+                    "example": false
+                }
+            }
+        },
+        "github_com_iarsham_websocket-chat_pkg_responses.PassNotEqualResponse": {
+            "type": "object",
+            "properties": {
+                "response": {
+                    "type": "string",
+                    "example": "Password is incorrect"
+                }
+            }
+        },
+        "github_com_iarsham_websocket-chat_pkg_responses.RecordDeletedResponse": {
+            "type": "object"
+        },
+        "github_com_iarsham_websocket-chat_pkg_responses.RegisterOKResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "example": "b710c584-2400-3fa2-9ebb-07eb3ed96c7d"
+                },
+                "joined_at": {
+                    "type": "string",
+                    "example": "2024-01-29T03:09:00+03:30"
+                },
+                "last_seen": {
+                    "type": "string",
+                    "example": "2024-01-29T04:14:08+03:30"
+                },
+                "username": {
+                    "type": "string",
+                    "example": "neymar"
+                },
+                "verified": {
+                    "type": "boolean",
+                    "example": false
+                }
+            }
+        },
+        "github_com_iarsham_websocket-chat_pkg_responses.UserAlreadyExistsResponse": {
+            "type": "object",
+            "properties": {
+                "response": {
+                    "type": "string",
+                    "example": "Password is incorrect"
+                }
+            }
+        },
+        "github_com_iarsham_websocket-chat_pkg_responses.UserLogOutResponse": {
+            "type": "object",
+            "properties": {
+                "response": {
+                    "type": "string",
+                    "example": "User logged out"
+                }
+            }
+        },
+        "github_com_iarsham_websocket-chat_pkg_responses.UserNotExistsResponse": {
+            "type": "object",
+            "properties": {
+                "response": {
+                    "type": "string",
+                    "example": "User not found"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,203 @@
+basePath: /api
+definitions:
+  github_com_iarsham_websocket-chat_internal_entities.UserRequest:
+    properties:
+      password:
+        example: geckodriver123
+        minLength: 8
+        type: string
+      username:
+        example: ana
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  github_com_iarsham_websocket-chat_pkg_responses.InterServerErrorResponse:
+    properties:
+      response:
+        example: Internal Server Error
+        type: string
+    type: object
+  github_com_iarsham_websocket-chat_pkg_responses.LoginOKResponse:
+    properties:
+      id:
+        example: b710c584-2400-3fa2-9ebb-07eb3ed96c7d
+        type: string
+      joined_at:
+        example: "2024-01-29T03:09:00+03:30"
+        type: string
+      last_seen:
+        example: "2024-01-29T04:14:08+03:30"
+        type: string
+      username:
+        example: neymar
+        type: string
+      verified:
+        example: false
+        type: boolean
+    type: object
+  github_com_iarsham_websocket-chat_pkg_responses.PassNotEqualResponse:
+    properties:
+      response:
+        example: Password is incorrect
+        type: string
+    type: object
+  github_com_iarsham_websocket-chat_pkg_responses.RecordDeletedResponse:
+    type: object
+  github_com_iarsham_websocket-chat_pkg_responses.RegisterOKResponse:
+    properties:
+      id:
+        example: b710c584-2400-3fa2-9ebb-07eb3ed96c7d
+        type: string
+      joined_at:
+        example: "2024-01-29T03:09:00+03:30"
+        type: string
+      last_seen:
+        example: "2024-01-29T04:14:08+03:30"
+        type: string
+      username:
+        example: neymar
+        type: string
+      verified:
+        example: false
+        type: boolean
+    type: object
+  github_com_iarsham_websocket-chat_pkg_responses.UserAlreadyExistsResponse:
+    properties:
+      response:
+        example: Password is incorrect
+        type: string
+    type: object
+  github_com_iarsham_websocket-chat_pkg_responses.UserLogOutResponse:
+    properties:
+      response:
+        example: User logged out
+        type: string
+    type: object
+  github_com_iarsham_websocket-chat_pkg_responses.UserNotExistsResponse:
+    properties:
+      response:
+        example: User not found
+        type: string
+    type: object
+host: localhost:8000
+info:
+  contact:
+    email: arshamdev2001@gmail.com
+    name: Arsham Roshannejad
+    url: https://www.linkedin.com/in/arsham-roshannejad
+  description: This is chat API server.
+  license:
+    name: MIT
+    url: https://www.mit.edu/~amini/LICENSE.md
+  termsOfService: http://swagger.io/terms/
+  title: Websocket-Chat-API
+  version: 0.1.0
+paths:
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: login with username and password
+      parameters:
+      - description: login body
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_iarsham_websocket-chat_internal_entities.UserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/github_com_iarsham_websocket-chat_pkg_responses.LoginOKResponse'
+        "401":
+          description: Error
+          schema:
+            $ref: '#/definitions/github_com_iarsham_websocket-chat_pkg_responses.PassNotEqualResponse'
+        "404":
+          description: Error
+          schema:
+            $ref: '#/definitions/github_com_iarsham_websocket-chat_pkg_responses.UserNotExistsResponse'
+        "500":
+          description: Error
+          schema:
+            $ref: '#/definitions/github_com_iarsham_websocket-chat_pkg_responses.InterServerErrorResponse'
+      summary: Login endpoint
+      tags:
+      - Auth
+  /auth/register:
+    post:
+      consumes:
+      - application/json
+      description: Register with username and password
+      parameters:
+      - description: register body
+        in: body
+        name: Request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_iarsham_websocket-chat_internal_entities.UserRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Success
+          schema:
+            $ref: '#/definitions/github_com_iarsham_websocket-chat_pkg_responses.RegisterOKResponse'
+        "409":
+          description: Error
+          schema:
+            $ref: '#/definitions/github_com_iarsham_websocket-chat_pkg_responses.UserAlreadyExistsResponse'
+        "500":
+          description: Error
+          schema:
+            $ref: '#/definitions/github_com_iarsham_websocket-chat_pkg_responses.InterServerErrorResponse'
+      summary: Register endpoint
+      tags:
+      - Auth
+  /users/delete-account:
+    delete:
+      consumes:
+      - application/json
+      description: If there is a user session, the user can be deleted
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: Success
+          schema:
+            $ref: '#/definitions/github_com_iarsham_websocket-chat_pkg_responses.RecordDeletedResponse'
+        "500":
+          description: Error
+          schema:
+            $ref: '#/definitions/github_com_iarsham_websocket-chat_pkg_responses.InterServerErrorResponse'
+      summary: Delete account endpoint
+      tags:
+      - Users
+  /users/logout:
+    post:
+      consumes:
+      - application/json
+      description: If there is a user session, the user can be logout
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: '#/definitions/github_com_iarsham_websocket-chat_pkg_responses.UserLogOutResponse'
+        "500":
+          description: Error
+          schema:
+            $ref: '#/definitions/github_com_iarsham_websocket-chat_pkg_responses.InterServerErrorResponse'
+      summary: Logout account endpoint
+      tags:
+      - Users
+schemes:
+- http
+- https
+swagger: "2.0"

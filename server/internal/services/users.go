@@ -6,7 +6,7 @@ import (
 	"github.com/google/uuid"
 	"github.com/gorilla/sessions"
 	"github.com/iarsham/websocket-chat/internal/domain"
-	"github.com/iarsham/websocket-chat/internal/entites"
+	"github.com/iarsham/websocket-chat/internal/entities"
 	"github.com/iarsham/websocket-chat/internal/models"
 	"github.com/iarsham/websocket-chat/pkg/constans"
 	"go.uber.org/zap"
@@ -40,7 +40,7 @@ func (u *UserService) GetUserByUsername(userName string) (*models.Users, error) 
 	return u.collectRow(row)
 }
 
-func (u *UserService) CreateUser(req *entites.UserRequest) (*models.Users, error) {
+func (u *UserService) CreateUser(req *entities.UserRequest) (*models.Users, error) {
 	encryptPass, _ := bcrypt.GenerateFromPassword([]byte(req.Password), 10)
 	query := "INSERT INTO users (username, password) VALUES ($1,$2) RETURNING *"
 	stmt, err := u.db.Prepare(query)
