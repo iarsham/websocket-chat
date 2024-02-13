@@ -7,6 +7,7 @@
 *.dll
 *.so
 *.dylib
+.vscode/
 
 # Test binary, built with `go test -c`
 *.test
@@ -25,21 +26,21 @@ server/.air.toml
 server/tmp
 
 # React
-front/.DS_STORE
-front/node_modules
-front/scripts/flow/*/.flowconfig
-front/.flowconfig
-*~
-*.pyc
-front/.grunt
-front/_SpecRunner.html
-front/__benchmarks__
-front/build/
-front/remote-repo/
-front/coverage/
-front/.module-cache
-front/fixtures/dom/public/react-dom.js
-front/fixtures/dom/public/react.js
-front/test/the-files-to-test.generated.js
-front/*.log*
-front/chrome-user-data
+client/.DS_STORE
+client/node_modules
+client/scripts/flow/*/.flowconfig
+client/.flowconfig
+client/*~
+client/*.pyc
+client/.grunt
+client/_SpecRunner.html
+client/__benchmarks__
+client/build/
+client/remote-repo/
+client/coverage/
+client/.module-cache
+client/fixtures/dom/public/react-dom.js
+client/fixtures/dom/public/react.js
+client/test/the-files-to-test.generated.js
+client/*.log*
+client/chrome-user-data
