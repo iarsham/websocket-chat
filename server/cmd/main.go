@@ -20,9 +20,11 @@ import (
 func main() {
 	logger := common.ZapLogger()
 	defer logger.Sync()
-	dbInstance := db.InitDB(logger)
+	dbInstance := db.ConnDB(logger)
 	defer db.CloseDB(logger)
 	rdsInstance := db.ConnRedis(logger)
 	defer db.DisConnRedis(logger)
+	_, _ = db.ConnRabbit(logger)
+	defer db.DisConnRabbit(logger)
 	RunServer(dbInstance, rdsInstance, logger)
 }

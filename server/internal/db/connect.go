@@ -10,7 +10,7 @@ import (
 
 var DB *sql.DB
 
-func InitDB(log *zap.Logger) *sql.DB {
+func ConnDB(log *zap.Logger) *sql.DB {
 	var err error
 	dsn := fmt.Sprintf(
 		"host=%s user=%s password=%s dbname=%s port=%s sslmode=disable",
