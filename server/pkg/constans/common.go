@@ -12,6 +12,7 @@ const (
 	ContentType     string = "Content-Type"
 	JsonContentType string = "application/json"
 	Session         string = "session.id"
+	ID              string = "id"
 )
 
 var (

@@ -3,7 +3,7 @@
 
 CREATE TABLE IF NOT EXISTS users
 (
-    id        uuid PRIMARY KEY                  DEFAULT gen_random_uuid(),
+    id        uuid PRIMARY KEY         DEFAULT gen_random_uuid(),
     username  varchar(255)             NOT NULL UNIQUE,
     password  varchar(255)             NOT NULL,
     joined_at timestamp with time zone NOT NULL DEFAULT now(),

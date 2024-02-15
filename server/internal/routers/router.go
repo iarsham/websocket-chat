@@ -26,6 +26,7 @@ func SetupRoutes(db *sql.DB, rds *redis.Client, log *zap.Logger) http.Handler {
 	api := r.PathPrefix("/api").Subrouter()
 	authGroup(api, db, log, store)
 	usersGroup(api, db, log, store, m)
+	roomsGroup(api, db, log, m)
 	serveSwagger(r)
 	return m.CorsMiddleware().Handler(r)
 }
