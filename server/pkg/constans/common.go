@@ -13,6 +13,12 @@ const (
 	JsonContentType string = "application/json"
 	Session         string = "session.id"
 	ID              string = "id"
+	StartSrvLog     string = "Server started on port %s..."
+	SrvStr          string = ":%s"
+	Origin          string = "Origin"
+	ENV             string = "../.env"
+	False           string = "false"
+	EmptyStr        string = ""
 )
 
 var (
@@ -29,6 +35,7 @@ var (
 	RbtPORT          = os.Getenv("RABBIT_PORT")
 	SrvPort          = os.Getenv(PORT)
 	Mode, _          = strconv.ParseBool(os.Getenv("DEBUG"))
+	ModeStr          = os.Getenv("DEBUG")
 	RdsPassword      = os.Getenv("REDIS_PASSWORD")
 	ORIGINS          = os.Getenv("ORIGINS")
 	SessionExpire, _ = strconv.Atoi(os.Getenv("SESSION_EXPIRE_HOUR"))

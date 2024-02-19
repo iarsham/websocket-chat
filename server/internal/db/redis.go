@@ -12,10 +12,11 @@ var RDS *redis.Client
 
 func ConnRedis(log *zap.Logger) *redis.Client {
 	RDS := redis.NewClient(&redis.Options{
-		Addr:     fmt.Sprintf("%s:%s", constans.RdsHOST, constans.RdsPORT),
+		Addr:     fmt.Sprintf(constans.RedisStr, constans.RdsHOST, constans.RdsPORT),
 		Password: constans.RdsPassword,
 		DB:       0,
 	})
+	defer RDS.Close()
 	_, err := RDS.Ping(context.Background()).Result()
 	if err != nil {
 		log.Fatal(err.Error())
@@ -23,11 +24,4 @@ func ConnRedis(log *zap.Logger) *redis.Client {
 	}
 	log.Info(constans.RedisConnected)
 	return RDS
-}
-
-func DisConnRedis(log *zap.Logger) {
-	if err := RDS.Close(); err != nil {
-		log.Fatal(err.Error())
-	}
-	log.Info(constans.RedisClosed)
 }

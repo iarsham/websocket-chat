@@ -13,24 +13,17 @@ var DB *sql.DB
 func ConnDB(log *zap.Logger) *sql.DB {
 	var err error
 	dsn := fmt.Sprintf(
-		"host=%s user=%s password=%s dbname=%s port=%s sslmode=disable",
+		constans.PgStr,
 		constans.PgHost, constans.PgUSER, constans.PgPASSWORD, constans.PgName, constans.PgPORT,
 	)
 	DB, err = sql.Open(constans.DbName, dsn)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
+	defer DB.Close()
 	if err = DB.Ping(); err != nil {
 		log.Fatal(err.Error())
 	}
 	log.Info(constans.PostgresConnected)
 	return DB
-}
-
-func CloseDB(log *zap.Logger) {
-	err := DB.Close()
-	if err != nil {
-		log.Fatal(err.Error())
-	}
-	log.Info(constans.PostgresClosed)
 }

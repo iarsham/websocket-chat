@@ -3,9 +3,9 @@ package constans
 const (
 	DbName            string = "postgres"
 	PostgresConnected string = "Postgres Successfully Connected..."
-	PostgresClosed    string = "Postgres Successfully Closed..."
 	RedisConnected    string = "Redis Successfully Connected..."
-	RedisClosed       string = "Redis Successfully Closed..."
 	RabbitMQConnected string = "RabbitMQ Successfully Connected..."
-	RabbitMQClosed    string = "RabbitMQ Successfully Closed..."
+	PgStr             string = "host=%s user=%s password=%s dbname=%s port=%s sslmode=disable"
+	AmqpStr           string = "amqp://%s:%s@%s:%s/"
+	RedisStr          string = "%s:%s"
 )
