@@ -38,7 +38,7 @@ func (u *UsersController) UserLoginHandler(w http.ResponseWriter, r *http.Reques
 		responses.Json(w, constans.PassNotEqual, http.StatusUnauthorized)
 		return
 	}
-	if err := u.Service.Authenticate(w, r, user.ID, true); err != nil {
+	if err := u.Service.Authenticate(w, r, user, true); err != nil {
 		responses.Json(w, constans.InternalError, http.StatusInternalServerError)
 		return
 	}

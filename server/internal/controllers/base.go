@@ -13,6 +13,10 @@ type RoomsController struct {
 	Service domain.RoomsRepository
 }
 
-func (u *UsersController) getFromCtx(ctx context.Context, key string) interface{} {
+type WsController struct {
+	Service domain.WsRepository
+}
+
+func getFromCtx(ctx context.Context, key string) interface{} {
 	return ctx.Value(key)
 }

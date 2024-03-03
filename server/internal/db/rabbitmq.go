@@ -8,8 +8,8 @@ import (
 )
 
 var (
-	RabbitConn *amqp091.Connection
-	RabbitChan *amqp091.Channel
+	Conn *amqp091.Connection
+	Chan *amqp091.Channel
 )
 
 func ConnRabbit(log *zap.Logger) (*amqp091.Connection, *amqp091.Channel) {
@@ -17,16 +17,21 @@ func ConnRabbit(log *zap.Logger) (*amqp091.Connection, *amqp091.Channel) {
 		constans.AmqpStr,
 		constans.RbtUSER, constans.RbtPASS, constans.RabHOST, constans.RbtPORT,
 	)
-	RabbitConn, err := amqp091.Dial(dsn)
+	Conn, err := amqp091.Dial(dsn)
 	if err != nil {
 		log.Fatal(err.Error())
 	}
-	defer RabbitConn.Close()
-	RabbitChan, err := RabbitConn.Channel()
+	Chan, err := Conn.Channel()
 	if err != nil {
 		log.Fatal(err.Error())
 	}
-	defer RabbitChan.Close()
 	log.Info(constans.RabbitMQConnected)
-	return RabbitConn, RabbitChan
+	return Conn, Chan
+}
+
+func CloseRabbit() {
+	defer func() {
+		Conn.Close()
+		Chan.Close()
+	}()
 }

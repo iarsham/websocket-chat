@@ -9,7 +9,7 @@ import (
 	"github.com/iarsham/websocket-chat/internal/db"
 	"github.com/iarsham/websocket-chat/internal/routers"
 	"github.com/iarsham/websocket-chat/pkg/constans"
-	"github.com/redis/go-redis/v9"
+	"github.com/rabbitmq/amqp091-go"
 	"go.uber.org/zap"
 	"net/http"
 	"time"
@@ -28,17 +28,17 @@ import (
 // @BasePath		/api
 // @schemes		http https
 func main() {
-
 	log := common.ZapLogger()
 	defer log.Sync()
 	pg := db.ConnDB(log)
-	rds := db.ConnRedis(log)
-	_, _ = db.ConnRabbit(log)
-	RunServer(pg, rds, log)
+	defer db.CloseDB()
+	_, chnl := db.ConnRabbit(log)
+	defer db.CloseRabbit()
+	RunServer(pg, chnl, log)
 }
 
-func RunServer(db *sql.DB, rds *redis.Client, log *zap.Logger) {
-	mux := routers.SetupRoutes(db, rds, log)
+func RunServer(db *sql.DB, chnl *amqp091.Channel, log *zap.Logger) {
+	mux := routers.SetupRoutes(db, chnl, log)
 	log.Info(fmt.Sprintf(constans.StartSrvLog, constans.SrvPort))
 	srv := &http.Server{
 		Addr:           fmt.Sprintf(constans.SrvStr, constans.SrvPort),

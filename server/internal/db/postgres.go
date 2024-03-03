@@ -20,10 +20,13 @@ func ConnDB(log *zap.Logger) *sql.DB {
 	if err != nil {
 		log.Fatal(err.Error())
 	}
-	defer DB.Close()
 	if err = DB.Ping(); err != nil {
 		log.Fatal(err.Error())
 	}
 	log.Info(constans.PostgresConnected)
 	return DB
+}
+
+func CloseDB() {
+	defer DB.Close()
 }

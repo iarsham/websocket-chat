@@ -2,21 +2,22 @@ package routers
 
 import (
 	"database/sql"
+	"net/http"
+
 	"github.com/gorilla/mux"
 	_ "github.com/iarsham/websocket-chat/api"
 	"github.com/iarsham/websocket-chat/internal/common"
 	"github.com/iarsham/websocket-chat/internal/middleware"
-	"github.com/redis/go-redis/v9"
+	"github.com/rabbitmq/amqp091-go"
 	"github.com/swaggo/http-swagger"
 	"go.uber.org/zap"
-	"net/http"
 )
 
 func redirectToDocs(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/swagger/index.html", http.StatusMovedPermanently)
 }
 
-func SetupRoutes(db *sql.DB, rds *redis.Client, log *zap.Logger) http.Handler {
+func SetupRoutes(db *sql.DB, chnl *amqp091.Channel, log *zap.Logger) http.Handler {
 	r := mux.NewRouter()
 	r.HandleFunc("/", redirectToDocs).Methods(http.MethodGet)
 	store := common.SessionToRedis()
@@ -27,6 +28,7 @@ func SetupRoutes(db *sql.DB, rds *redis.Client, log *zap.Logger) http.Handler {
 	authGroup(api, db, log, store)
 	usersGroup(api, db, log, store, m)
 	roomsGroup(api, db, log, m)
+	wsGroup(r, log, chnl, m)
 	serveSwagger(r)
 	return m.CorsMiddleware().Handler(r)
 }

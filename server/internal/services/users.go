@@ -3,7 +3,6 @@ package services
 import (
 	"database/sql"
 	"errors"
-	"github.com/google/uuid"
 	"github.com/gorilla/sessions"
 	"github.com/iarsham/websocket-chat/internal/domain"
 	"github.com/iarsham/websocket-chat/internal/entities"
@@ -62,14 +61,17 @@ func (u *UserService) DeleteUser(userID string) error {
 	return nil
 }
 
-func (u *UserService) Authenticate(w http.ResponseWriter, r *http.Request, userID uuid.UUID, auth bool) error {
+func (u *UserService) Authenticate(w http.ResponseWriter, r *http.Request, user *models.Users, auth bool) error {
 	session, err := u.store.Get(r, constans.Session)
 	if err != nil {
 		u.log.Warn(err.Error())
 		return err
 	}
-	session.Values["authenticated"] = auth
-	session.Values["user_id"] = userID.String()
+	if user != nil {
+		session.Values[constans.UserID] = user.ID.String()
+		session.Values[constans.Username] = user.Username
+	}
+	session.Values[constans.AuthKey] = auth
 	if err := session.Save(r, w); err != nil {
 		u.log.Warn(err.Error())
 		return err
