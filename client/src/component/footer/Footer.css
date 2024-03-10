@@ -1,0 +1,18 @@
+.footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    background-color: #eee; /* Light gray background */
+    color: #333; /* Darker text color */
+    border-top: 1px solid #ccc; /* Top border */
+    position: fixed; /* Fix footer at bottom of viewport */
+    bottom: 0;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    .footer {
+        font-size: 14px; /* Adjust text size for smaller screens */
+    }
+}
