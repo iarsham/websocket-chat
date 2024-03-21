@@ -1,0 +1,73 @@
+.home {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 50px;
+    margin: 0 auto; /* Center horizontally */
+    max-width: 500px; /* Optional: Set a maximum width */
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.home img {
+    width: 300px; /* Adjust image width as needed */
+    margin-bottom: 20px;
+    border-radius: 5px; /* Add a subtle border radius to the image */
+}
+
+.home h1 {
+    margin-bottom: 20px;
+    font-size: 1.5rem; /* Adjust font size for a heading */
+    font-weight: bold; /* Make the heading bolder */
+}
+
+.home .actions {
+    display: flex;
+    flex-direction: column; /* Stack buttons and form vertically */
+    gap: 10px; /* Add some space between buttons and form */
+    width: 100%; /* Make buttons and form fill the available width */
+}
+
+.home .actions button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #3498db; /* Adjust button color */
+    color: #fff;
+    cursor: pointer;
+    text-transform: uppercase; /* Make button text uppercase (optional) */
+}
+
+.home .actions button:hover {
+    background-color: #2980b9; /* Adjust hover color */
+}
+
+.home .actions form {
+    display: flex; /* Arrange label and input side-by-side */
+    align-items: center; /* Align label and input vertically */
+    width: 100%; /* Make the form fill the available width */
+}
+
+.home .actions label {
+    flex: 0 0 auto; /* Limit label width to fit content */
+    margin-right: 10px; /* Add some space between label and input */
+}
+
+.home .actions input[type="text"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    width: calc(100% - var(--label-width)); /* Calculate input width based on label width */
+}
+
+.home .actions button[type="submit"] {
+    padding: 8px 15px;
+    margin-top: 5px; /* Add some space above the submit button */
+}
+
+/* Optional: Calculate label width dynamically based on content */
+:root {
+    --label-width: calc(min-content + 10px); /* Add 10px for margin */
+}

@@ -9,6 +9,7 @@
     position: fixed; /* Fix footer at bottom of viewport */
     bottom: 0;
     width: 100%;
+    border-radius: 4px;
 }
 
 @media (max-width: 768px) {
