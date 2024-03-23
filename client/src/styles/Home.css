@@ -3,7 +3,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 50px;
+    padding: 10px;
     margin: 0 auto; /* Center horizontally */
     max-width: 500px; /* Optional: Set a maximum width */
     background-color: #fff;
@@ -59,7 +59,9 @@
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 3px;
-    width: calc(100% - var(--label-width)); /* Calculate input width based on label width */
+    width: calc(
+            100% - var(--label-width)
+    ); /* Calculate input width based on label width */
 }
 
 .home .actions button[type="submit"] {
@@ -71,3 +73,9 @@
 :root {
     --label-width: calc(min-content + 10px); /* Add 10px for margin */
 }
+
+.home .actions select {
+    padding: 5px;
+    margin-top: 10px;
+}
+

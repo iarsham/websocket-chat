@@ -24,7 +24,7 @@ const Login: React.FC = () => {
             ).then(
                 () => {
                     toast.success("Login Successful!");
-                    setTimeout(() => navigate("/home"), 2000);
+                    setTimeout(() => navigate("/"), 2000);
                 },
                 (error) => {
                     toast.error(error.response.data["response"]);
