@@ -37,8 +37,9 @@ const Home: React.FC = () => {
                     {withCredentials: true},
                 )
                 .then(
-                    () => {
+                    (res) => {
                         toast.success("Room created successfully!");
+                        setTimeout(() => navigate(`/room/${res.data.id}`), 2000);
                     },
                     (error) => {
                         toast.error(error.response.data["response"]);

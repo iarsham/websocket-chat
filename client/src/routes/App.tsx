@@ -5,22 +5,24 @@ import Layout from "../component/Layout";
 import Register from "../component/Register";
 import Login from "../component/Login";
 import Home from "../component/Home";
+import Room from "../component/Room";
 
 const App: React.FC = () => {
-  return (
-    <>
-      <BrowserRouter>
-        <Layout>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Layout>
-      </BrowserRouter>
-    </>
-  );
+    return (
+        <>
+            <BrowserRouter>
+                <Layout>
+                    <Routes>
+                        <Route path="/" element={<Home/>}/>
+                        <Route path="/register" element={<Register/>}/>
+                        <Route path="/login" element={<Login/>}/>
+                        <Route path="/room/:id" element={<Room/>}/>
+                        <Route path="*" element={<NotFound/>}/>
+                    </Routes>
+                </Layout>
+            </BrowserRouter>
+        </>
+    );
 };
 
 export default App;
